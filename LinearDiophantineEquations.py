@@ -5,5 +5,7 @@ def gcd(a, b, iter=0): return ((a+b) if a+b != 1 else 1) if not a or not b else 
 
 print(gcd(252, 198))
 
+fa;sdfhasdkjlfsbl
+
 # def diophantineSolver(a, b, c):
 #     gcd = gcd(a, b)
