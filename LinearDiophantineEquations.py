@@ -2,33 +2,24 @@ class Coef():
     def __init__(self, coef, expression):
         self.coef = coef
         self.expression = expression
+    
 
-
-# def simplify(expression):
-#     print(toList(expression))
-#     if type(expression) == list:
-#         simplifiedList = []
-#         for element in expression:
-
-#         # return 
-#         # return [simplify(element) for element in expression]
-#     if type(expression.expression) == Coef:
-#         expression.expression.coef *= expression.coef
-#         return simplify(expression.expression)
-#     else:
-#         return expression
-
-def simplify(expression):
+def simplifyMultiplied(expression):
     if type(expression.expression) == list:
         scaledList = []
         for element in expression.expression:
-            simplifiedElement = simplify(element)
-            scaledElement = Coef(simplifiedElement.coef * expression.coef, simplifiedElement.expression)
-            scaledList.append(scaledElement)
+            simplifiedElement = simplifyMultiplied(element)
+            if type(simplifiedElement) == list:
+                for secondIter in simplifiedElement:
+                    secondScaledElement = Coef(secondIter.coef * expression.coef, secondIter.expression)
+                    scaledList.append(secondScaledElement)
+            else:
+                scaledElement = Coef(simplifiedElement.coef * expression.coef, simplifiedElement.expression)
+                scaledList.append(scaledElement)
         return scaledList
     elif type(expression.expression) == Coef:
         expression.expression.coef *= expression.coef
-        return simplify(expression.expression)
+        return simplifyMultiplied(expression.expression)
     else:
         return expression
 
@@ -44,7 +35,7 @@ def toList(expression):
 
 # testExpression1 = Coef(5, Coef(2, Coef(1, Coef(3, "x"))))
 testExpression1 = Coef(5, Coef(1, [
-    Coef(2, Coef(7, "y")),
+    Coef(2, [Coef(7, [Coef(3, "y"), Coef(1, "y")]), Coef(9, "y")]),
     Coef(4, "x")
 ]))
 # 5 * ( 1 * ( 2 * (7y + 4x)))
