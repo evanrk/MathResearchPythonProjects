@@ -24,6 +24,27 @@ def simplifyMultiplied(expression):
         return expression
 
 
+def simplify(expression):
+    additionSimplified = []
+    multiplySimplified = simplifyMultiplied(expression)
+    variables = []
+
+    print(toList(multiplySimplified))
+
+    for i in multiplySimplified:
+        variables.append(i.expression)
+
+    for variable in set(variables):
+        coefTotal = 0
+        for expression in multiplySimplified:
+            if variable == expression.expression:
+                coefTotal += expression.coef
+        additionSimplified.append(Coef(coefTotal, variable))
+
+    return additionSimplified
+                
+
+
 def toList(expression):
     if type(expression) == list:
         return [(toList(element) if type(element) != int else [element]) for element in expression]
