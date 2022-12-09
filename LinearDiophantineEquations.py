@@ -86,3 +86,29 @@ testExpression1 = Coef(5, Coef(1, [
 
 # print(toList(replaceExpression(testExpression3, 1, "x")))
 print(toList(testExpression1))
+
+def gcd(a, b, iter=0): return (a+b) if a+b != 1 else 1 if not a or not b else gcd(b, a%b, iter+1) # copied from earlier code
+
+coef1 = input("Enter the first coefficient: ") # gets the input for coef1
+coef2 = input("Enter the second coefficient: ") # gets the input for coef2
+final = input("Enter the final number: ") # gets the input for the final number
+
+def findLinearDiophantineCoefficients(coef1, coef2, final):
+    greatest_common_denominator = gcd(coef1, coef2) # finds the gcd
+    if not final%greatest_common_denominator:
+        return None
+    else:
+        # since all numbers in the equation are divisible by a number, I can divide them all by that number to make it more efficient
+        coef1 = coef1 // greatest_common_denominator
+        coef2 = coef2 // greatest_common_denominator
+        final = final // greatest_common_denominator
+        for x in range(-final, final+1): # iterates for all values between negative final and positive final
+            for y in range(-final, final+1):
+                if coef1 * x + coef2 * y == final: 
+                    # print the equations in the formula in terms of t, both coef1 and coef2 are already divided by the gcd earlier
+                    return (
+                        f"x = {x}, {-coef1}t",
+                        f"y = {y}, {coef2}t"
+                    )
+
+print(findLinearDiophantineCoefficients(coef1, coef2, final))
